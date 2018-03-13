@@ -24,7 +24,6 @@ bin/RML-Mapper
 Copy app.js to RML-Mapper and run
 ```
 npm install
-npm start
 ```
 ### Setup folder structure
 
