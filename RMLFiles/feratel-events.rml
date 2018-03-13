@@ -1,0 +1,425 @@
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix schema: <http://schema.org/>.
+
+
+<#Feratel-EventsMapping>
+
+	rml:logicalSource[
+		rml:source "../Feratel/Feratel-Events.xml";
+		rml:iterator "/Events/Event";
+		rml:referenceFormulation ql:XPath;
+	];
+
+	rr:subjectMap[
+		rr:template "http://Feratel-Events/{@Id}";
+		rr:class schema:Event
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:name;
+		rr:objectMap[
+			rml:reference "/Details/Names/Translation";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:location;
+		rr:objectMap[
+			rr:parentTriplesMap <#PlaceMapping>;
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:organizer;
+		rr:objectMap[
+			rr:parentTriplesMap <#OrganizationMapping>;
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:duration;
+		rr:objectMap[
+			rml:reference "/Details/Duration";
+		]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate schema:description;
+		rr:objectMap[
+			rml:reference "/Descriptions/Description";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:startDate;
+		rr:objectMap[
+			rml:reference "/Dates/Date/@From";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:endDate;
+		rr:objectMap[
+			rml:reference "/Dates/Date/@To";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:doorTime;
+		rr:objectMap[
+			rml:reference "/StartTimes/StartTime/@Time";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:image;
+		rr:objectMap [
+			rr:parentTriplesMap <#ImageMapping>;
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:url;
+		rr:objectMap[
+			rml:reference "/Links/Link/@URL";
+		]
+	].
+<#PlaceMapping>
+
+		rml:logicalSource[
+			rml:source "../Feratel/Feratel-Events.xml";
+			rml:iterator "/Events/Event";
+			rml:referenceFormulation ql:XPath;
+		];
+
+		rr:subjectMap[
+			rr:template "http://Feratel-Events/Place/{@Id}";
+			rr:class schema:Place
+		];
+		rr:predicateObjectMap [
+			rr:predicate schema:name;
+			rr:objectMap[
+				rml:reference "/Details/Location";
+			]
+		];
+		rr:predicateObjectMap [
+			rr:predicate schema:geo;
+			rr:objectMap [
+				rr:parentTriplesMap <#LocationMapping>;
+			]
+		];
+		rr:predicateObjectMap [
+			rr:predicate schema:address;
+			rr:objectMap [
+				rr:parentTriplesMap <#PostalAddressMapping>;
+			]
+		].
+
+<#PostalAddressMapping>
+
+	rml:logicalSource[
+		rml:source "../Feratel/Feratel-Events.xml";
+		rml:iterator "/Events/Event/Addresses/Address";
+		rml:referenceFormulation ql:XPath;
+	];
+
+	rr:subjectMap[
+		rr:template "http://Feratel-Events/Place/Address/{@Id}";
+		rr:class schema:PostalAddress
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:name;
+		rr:objectMap[
+			rml:reference "/Company";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:contactType;
+		rr:objectMap[
+			rml:reference "/@Type";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:streetAddress;
+		rr:objectMap[
+			rml:reference "/AddressLine1";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:streetAddress;
+		rr:objectMap[
+			rml:reference "/AddressLine2";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:addressCountry;
+		rr:objectMap[
+			rml:reference "/Country";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:addressLocality;
+		rr:objectMap[
+			rml:reference "/Town";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:postalCode;
+		rr:objectMap[
+			rml:reference "/ZipCode";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:email;
+		rr:objectMap[
+			rml:reference "/Email";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:faxNumber;
+		rr:objectMap[
+			rml:reference "/Fax";
+		]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate schema:url;
+		rr:objectMap[
+			rml:reference "/URL";
+		]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate schema:telephone;
+		rr:objectMap[
+			rml:reference "/Phone";
+		]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate schema:telephone;
+		rr:objectMap[
+			rml:reference "/Mobile";
+		]
+	].
+<#ImageMapping>
+
+	rml:logicalSource[
+		rml:source "../Feratel/Feratel-Events.xml";
+		rml:iterator "/Events/Event/Documents/Document";
+		rml:referenceFormulation ql:XPath;
+	];
+
+	rr:subjectMap[
+		rr:template "http://Feratel-Events/Document/{@Id}";
+		rr:class schema:ImageObject
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:description;
+		rr:objectMap[
+			rml:reference "/@Type";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:disambiguatingDescription;
+		rr:objectMap[
+			rml:reference "/@Class";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:fileFormat;
+		rr:objectMap[
+			rml:reference "/@Extension";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:text;
+		rr:objectMap[
+			rml:reference "/Names/Translation";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:inLanguage;
+		rr:objectMap[
+			rml:reference "/Names/Translation/@Language";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:image;
+		rr:objectMap[
+			rml:reference "/URL";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:url;
+		rr:objectMap[
+			rml:reference "/URL";
+		]
+	];
+	rr:predicateObjectMap [
+		rr:predicate schema:dateModified;
+		rr:objectMap[
+			rml:reference "/@ChangeDate";
+		]
+	].
+
+	<#OrganizationMapping>
+
+		rml:logicalSource[
+			rml:source "../Feratel/Feratel-Events.xml";
+			rml:iterator "/Events/Event/Addresses/Address";
+			rml:referenceFormulation ql:XPath;
+		];
+
+		rr:subjectMap[
+			rr:template "http://Feratel-Events/Organization/{@Id}";
+			rr:class schema:Organization
+		];
+
+		rr:predicateObjectMap [
+			rr:predicate schema:name;
+			rr:objectMap[
+				rml:reference "/Company";
+			]
+		];
+		rr:predicateObjectMap [
+			rr:predicate schema:employee;
+			rr:objectMap [
+				rr:parentTriplesMap <#PersonMapping>;
+			]
+		];
+		rr:predicateObjectMap [
+			rr:predicate schema:address;
+			rr:objectMap [
+				rr:parentTriplesMap <#OrganizationAddressMapping>;
+			]
+		];
+		rr:predicateObjectMap [
+			rr:predicate schema:email;
+			rr:objectMap[
+				rml:reference "/Email";
+			]
+		];
+
+		rr:predicateObjectMap [
+			rr:predicate schema:faxNumber;
+			rr:objectMap[
+				rml:reference "/Fax";
+			]
+		];
+
+		rr:predicateObjectMap [
+			rr:predicate schema:url;
+			rr:objectMap[
+				rml:reference "/URL";
+			]
+		];
+
+		rr:predicateObjectMap [
+			rr:predicate schema:telephone;
+			rr:objectMap[
+				rml:reference "/Phone";
+			]
+		];
+
+		rr:predicateObjectMap [
+			rr:predicate schema:telephone;
+			rr:objectMap[
+				rml:reference "/Mobile";
+			]
+		].
+
+
+	<#PersonMapping>
+
+		rml:logicalSource[
+			rml:source "../Feratel/Feratel-Events.xml";
+			rml:iterator "/Events/Event/Addresses/Address";
+			rml:referenceFormulation ql:XPath;
+		];
+
+		rr:subjectMap[
+			rr:template "http://Feratel-Events/Organization/Person/{@Id}";
+			rr:class schema:Person
+		];
+
+		rr:predicateObjectMap [
+			rr:predicate schema:givenName;
+			rr:objectMap[
+				rml:reference "/FirstName";
+			]
+		];
+		rr:predicateObjectMap [
+			rr:predicate schema:familyName;
+			rr:objectMap[
+				rml:reference "/LastName";
+			]
+		].
+		<#OrganizationAddressMapping>
+
+			rml:logicalSource[
+				rml:source "../Feratel/Feratel-Events.xml";
+				rml:iterator "/Events/Event/Addresses/Address";
+				rml:referenceFormulation ql:XPath;
+			];
+
+			rr:subjectMap[
+				rr:template "http://Feratel-Events/Organization/Address/{@Id}";
+				rr:class schema:PostalAddress
+			];
+
+			rr:predicateObjectMap [
+				rr:predicate schema:contactType;
+				rr:objectMap[
+					rml:reference "/@Type";
+				]
+			];
+			rr:predicateObjectMap [
+				rr:predicate schema:streetAddress;
+				rr:objectMap[
+					rml:reference "/AddressLine1";
+				]
+			];
+			rr:predicateObjectMap [
+				rr:predicate schema:streetAddress;
+				rr:objectMap[
+					rml:reference "/AddressLine2";
+				]
+			];
+			rr:predicateObjectMap [
+				rr:predicate schema:addressCountry;
+				rr:objectMap[
+					rml:reference "/Country";
+				]
+			];
+			rr:predicateObjectMap [
+				rr:predicate schema:addressLocality;
+				rr:objectMap[
+					rml:reference "/Town";
+				]
+			];
+			rr:predicateObjectMap [
+				rr:predicate schema:postalCode;
+				rr:objectMap[
+					rml:reference "/ZipCode";
+				]
+			].
+
+			<#LocationMapping>
+
+				rml:logicalSource[
+				rml:source "../Feratel/Feratel-Events.xml";
+				rml:iterator "/Events/Event";
+					rml:referenceFormulation ql:XPath;
+				];
+
+				rr:subjectMap[
+					rr:template "http://Feratel-Events/GeoCoordinates/{@Id}";
+					rr:class schema:GeoCoordinates
+				];
+				rr:predicateObjectMap [
+					rr:predicate schema:latitude;
+					rr:objectMap[
+						rml:reference "/Details/Position/@Latitude";
+					]
+				];
+
+				rr:predicateObjectMap [
+					rr:predicate schema:longitude;
+					rr:objectMap[
+						rml:reference "/Details/Position/@Longitude";
+					]
+				].

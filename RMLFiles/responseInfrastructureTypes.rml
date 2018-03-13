@@ -1,0 +1,33 @@
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix schema: <http://schema.org/>.
+
+
+<#InfrastructureTypesMapping>
+
+	rml:logicalSource[
+		rml:source "../Feratel/response-KeyValue-InfrastructureType.xml";
+		rml:iterator "/InfrastructureTypes/InfrastructureType";
+		rml:referenceFormulation ql:XPath;
+	];
+
+	rr:subjectMap[
+		rr:template "http://feratel.response-keyValue-InfrastructureType/{@Type}";
+		rr:class schema:Enumeration
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate schema:description;
+		rr:objectMap[
+			rml:reference "/Name/Translation/@Language";
+			#rr:datatype schema:Language
+		]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate schema:name;
+		rr:objectMap[
+			rml:reference "/Name/Translation";
+		]
+	].
