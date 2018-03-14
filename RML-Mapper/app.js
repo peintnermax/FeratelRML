@@ -18,7 +18,9 @@ var parser = new xml2js.Parser({explicitArray: false, trim: true});
 
 
 var chunkSize = 500; //number of annotations submitted at a time
-var apiKey = 'HyRgQfrKM'; //your semantify API key
+
+var sem_website_uid = 'HyRgQfrKM'; //your semantify UID
+var sem_website_secret = '468a3629ec72e815a1a628b59906a789';//semantify website secret
 
 
 var giantAnnotationArray = [];
@@ -33,7 +35,7 @@ function fileCallBack(entry, stat) {
         return;
     }
     annotationObject["cid"] = cid;
-
+    annotationObject["domainSpecification"] = sem_website_secret;
     giantAnnotationArray.push(annotationObject);
 }
 function endCallback() {
@@ -41,6 +43,7 @@ function endCallback() {
     var numChunks = Math.ceil(length / chunkSize);
 
     console.log('\n[UPLOADING]'.yellow+' %d annotation chunks by blocks of %d, total %d transactions', length, chunkSize, numChunks);
+    console.log('Website UID:'+ sem_website_uid+', Website Secret:'+ sem_website_secret);
 
     start = 0;
     while (numChunks > 0) {
@@ -58,7 +61,7 @@ function endCallback() {
 }
 function makeRequest(chunks) {
     request({
-        url: "https://semantify.it/api/annotation/" + apiKey,
+        url: "https://semantify.it/api/annotation/" + sem_website_uid,
         method: "POST",
         json: chunks
     }, function(error, response, body) {
@@ -306,9 +309,10 @@ function convertingAndUploadingTask(){
 
 
 
-if(process.argv[2]!=null){
-  console.log('Semantify.it API-Key set to '+process.argv[2]);
-  apiKey= process.argv[2];
+if(process.argv[2]!=null && process.argv[3]!=null){
+  console.log('Semantify.it UID-Key set to '+process.argv[2]+', Website secret set to '+process.argv[3]);
+  sem_website_uid= process.argv[2];
+  sem_website_secret = process.argv[3];
 }
 
 console.log('Welcome to the Feratel Semantic Data Publisher.\nAll Files in the FeratelXML folder will be processed and uploaded to semantify.it\n');

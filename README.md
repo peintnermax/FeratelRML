@@ -37,9 +37,9 @@ Output is generated to /RMLOutput in .n3 format and is converted to JSON-LD Data
 
 ## Run app.js in folder /RML-Mapper
 ```
-node app.js <semantify API key>
+node app.js <website_uid> <website_secret>
 ```
-To upload jsonld data to semantify.it, an API Key is needed and has to be passed either throw argument, or in the code itself.
+To upload jsonld data to semantify.it, an Website UID and Website Secret is needed and has to be passed either throw argument, or in the code itself.
 
 ## Built With
 
